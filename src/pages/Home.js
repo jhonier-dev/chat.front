@@ -18,7 +18,7 @@ const Home = () => {
       const result = await createUser({ nickName });
 
       if (result.status === constants.STATUSES.OK) {
-        navigate(`/chat-room?nickname=${nickName}`);
+        navigate(`/chat-room?nickname=${encodeURIComponent(nickName)}`);
       }
 
     } catch (error) {

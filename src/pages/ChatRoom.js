@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connectSocket, disconnectSocket, onEvent, emitEvent } from '../services/socketService';
-import { sendMessage } from '../services/messageService';
 import UsersList from '../components/chat/UsersList';
 import Messages from '../components/chat/Messages';
 import MessageBox from '../components/chat/MessageBox';
@@ -14,7 +13,6 @@ const Chatroom = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const nickName = params.get('nickname');
-  const senderId = params.get('Id');
 
   useEffect(() => {
     connectSocket();
@@ -36,7 +34,6 @@ const Chatroom = () => {
     e.preventDefault();
     if (message) {
       emitEvent('sendMessage', { message, nickName });
-      //const result = await sendMessage(message,nickName);
       setMessage('');
     }
 
