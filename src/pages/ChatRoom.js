@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState  } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connectSocket, disconnectSocket, onEvent, emitEvent } from '../services/socketService';
 import UsersList from '../components/chat/UsersList';
@@ -15,6 +15,7 @@ const Chatroom = () => {
   const nickName = params.get('nickname');
 
   useEffect(() => {
+    
     connectSocket();
 
     onEvent('userList', (userList) => {
@@ -33,10 +34,15 @@ const Chatroom = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message) {
-      emitEvent('sendMessage', { message, nickName });
+      const currentDate = new Date();
+      emitEvent('sendMessage', 
+        { message,
+          nickName,
+          timestamp: currentDate.toLocaleString(),
+          status: users.length > 1 ? 'received' : 'notReceived'
+        });
       setMessage('');
     }
-
   };
 
   return (
@@ -44,7 +50,7 @@ const Chatroom = () => {
 
     <div className="container">
 
-      {users.length && <UsersList users={users} />}
+      {users.length && <UsersList users={users} messages={messages} />}
 
       <div className="chat-area">
 
@@ -52,7 +58,7 @@ const Chatroom = () => {
           <h2>Chat Area</h2>
         </div>
 
-        {messages && <Messages user={users} messages={messages} />}
+        {messages && <Messages  messages={messages} currentUser={nickName}/>}
 
         <MessageBox handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} />
 

@@ -6,9 +6,8 @@ import '../pages/pages.css';
 
 const Home = () => {
 
-  const [nickName, setNickName] = useState('');
+  const [nickName, setNickName]  = useState('');
   const navigate = useNavigate();
-
   
   const joinChat = async (e) => {
     
