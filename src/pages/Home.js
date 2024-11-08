@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../services/userService';
+import { createSesion } from '../services/userService';
 import constants from '../utils/constants';
 import '../pages/pages.css';
 
 const Home = () => {
 
   const [nickName, setNickName]  = useState('');
+  const [password, setPassword]  = useState('');
   const navigate = useNavigate();
   
   const joinChat = async (e) => {
@@ -14,8 +15,9 @@ const Home = () => {
     e.preventDefault();
 
     try {
-      const result = await createUser({ nickName });
-
+      const result = await createSesion({ nickName, password });
+      console.log(result); // Verifica la respuesta de la API
+      console.log(result.status); 
       if (result.status === constants.STATUSES.OK) {
         navigate(`/chat-room?nickname=${encodeURIComponent(nickName)}`);
       }
@@ -31,17 +33,21 @@ const Home = () => {
       <header className="Chat-header">
         <div className="BoxMain">
           <h1>Chat online</h1>
-          <h4>SDH Inc.</h4>
+          <h6>Company Name</h6>
           <input
             type="text"
             value={nickName}
             onChange={(e) => setNickName(e.target.value)}
-            placeholder="   Digita tu usuario"
+            placeholder="   Digite su usuario"
           />
-          <br />
-          <br />
-          <button onClick={joinChat}>Ingresar</button>
-          <p>¿Nesecitas ayuda?</p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="   Digite su contraseña"
+          />
+          <button onClick={joinChat}>Unirse al chat</button>
+          <a href=''>¿Nesecitas ayuda?</a>
         </div>
 
       </header>

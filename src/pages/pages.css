@@ -1,7 +1,6 @@
 
 Chat {
   text-align: center;
-  
 }
 
 .Chat-header {
@@ -18,7 +17,7 @@ Chat {
 
 .BoxMain{
   width: 250px;
-  height: 300px;
+  height: 350px;
   background: #112752;
   padding: 50px;
   border-radius: 35px;
@@ -26,6 +25,7 @@ Chat {
 }
 
 h1{
+  margin-top: 15px;
   text-shadow:
     0 0 7px #7a90f5,
     0 0 10px #7a90f5,
@@ -38,29 +38,53 @@ h1{
   animation: flicker 5s infinite alternate; 
 }
 
-h4{
+h6{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin-bottom: 45px;
 }
 
-p{
+a{
+  display: block;
+  color: #e6e4e4;
+  margin-top: 15px;
   font-size: 15px;
   padding-top: 0px;
 }
 
 input{
   width: 100%;
-  height: 30px;
+  height: 34px;
+  caret-color: #bdbdbd;
+  color: #bdbdbd;
   border-radius: 5px;
+  margin-bottom: 20px;
+  border-style: inset;
+  border-color: #425883;
+  background-color: transparent;
+}
+
+input::placeholder{
+  color: #bdbdbd;
 }
 
 button{
   width: 55%;
-  height: 30px;
-  border-radius: 5px;
+  height: 35px;
+  font-size: 14px;
+  border-radius: 20px;
   margin-bottom: 0px;
   cursor: pointer;
+  border-style: none;
+  margin-top: 10px;
+  transition: background-color 0.5s ease;
 }
 
+button:hover{
+  background: transparent;
+  color: #d1cfcf;
+  border-style: solid;
+  border-color: #bdbdbd;
+}
 
 @keyframes flicker {
   

@@ -1,6 +1,6 @@
 const constants = {
     STATUSES: {
-      OK: 'ok',
+      OK: 'OK',
       ERROR: 'error',
     },
   };
