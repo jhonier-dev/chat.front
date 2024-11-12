@@ -49,9 +49,34 @@ h2{
 }
 
 .user-list li {
+  display: flex;
   padding: 10px 15px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-list li .user-perfil{
+  width: 75.4px;
+  height: 60.4px;
+  border-radius: 55px;
+}
+
+.user-list li .user-info{
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.user-list li .user-cargo{
+  color: #464646;
+  font-size: 13px;
+}
+
+.user-list li .user-correo{
+  color: #818181;
+  font-size: 11px;
 }
 
 .user-list li:hover {

@@ -27,6 +27,7 @@ const Chatroom = () => {
     });
 
     emitEvent('joinChat', nickName);
+    console.log("Se emite el usuario: " + nickName);
 
     return () => disconnectSocket();
   }, []);
@@ -46,11 +47,9 @@ const Chatroom = () => {
   };
 
   return (
-
-
     <div className="container">
 
-      {users.length && <UsersList users={users} messages={messages} />}
+      {users.length && <UsersList users={users} />}
 
       <div className="chat-area">
 

@@ -1,12 +1,17 @@
 import React from 'react';
 
 const Message = ({ user, text, type, status, timestamp }) => {
+
+    const capitalizeWords = (str) => {
+      return str.replace(/\b\w/g, (char) => char.toUpperCase());
+    };
+
     return (
       <div className={`message ${type}`}>
         {/* Primera fila: usuario y texto */}
         <div className="message-content">
           <p>
-            <strong>{user}: </strong>
+            <strong>{capitalizeWords(user)}: </strong>
             {text}
           </p>
         </div>

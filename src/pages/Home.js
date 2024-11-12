@@ -16,8 +16,6 @@ const Home = () => {
 
     try {
       const result = await createSesion({ nickName, password });
-      console.log(result); // Verifica la respuesta de la API
-      console.log(result.status); 
       if (result.status === constants.STATUSES.OK) {
         navigate(`/chat-room?nickname=${encodeURIComponent(nickName)}`);
       }

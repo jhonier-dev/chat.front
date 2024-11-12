@@ -12,7 +12,6 @@ export async function createSesion(userData) {
     
     try {
         const newItem = await request('security/login', options);
-        console.log(newItem); // Verifica la respuesta de la API
         return newItem;
     } catch (error) {
         throw error;
