@@ -1,25 +1,40 @@
 import React from 'react';
 import perfilDefault from '../../img/defaultProfile.jpg'; // Imagen predeterminada si no existe una personalizada
 
-const UsersList = ({ users }) => {
+const UsersList = ({ users, onChatSelect  }) => {
   const getProfileImage = (nickName) => {
     try {
-      // Importa la imagen de perfil usando el nombre de usuario en minúsculas
-      return require(`../../img/perfil${nickName.toLowerCase()}.jpg`);
+      // Convierte a minúsculas y elimina los espacios en blanco
+      const formattedNickName = nickName.toLowerCase().replace(/\s+/g, '');
+      // Importa la imagen de perfil usando el nombre de usuario formateado
+      return require(`../../img/perfil${formattedNickName}.jpg`);
     } catch (err) {
       // Si no encuentra la imagen, usa la imagen predeterminada
       return perfilDefault;
     }
   };
 
+
   return (
     <div className="user-list">
       <div className="user-header">
         <h2>Usuarios conectados</h2>
       </div>
+
       <ul>
+        <li key="generalgroup" onClick={() => onChatSelect("generalgroup")}>
+            <img
+              className="user-perfil"
+              alt=""
+              src={getProfileImage("generalgroup")}
+            />
+            <div className="user-info">
+              <strong>Chat grupal</strong>
+            </div>
+        </li>
+
         {users.map((user) => (
-          <li key={user.id}>
+          <li key={user.id} onClick={() => onChatSelect(user.nickName)}>
             <img
               className="user-perfil"
               alt={`${user.nickName}'s profile`}
@@ -32,6 +47,7 @@ const UsersList = ({ users }) => {
             </div>
           </li>
         ))}
+
       </ul>
     </div>
   );

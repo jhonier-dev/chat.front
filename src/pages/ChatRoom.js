@@ -1,4 +1,4 @@
-import React, { useEffect, useState  } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { connectSocket, disconnectSocket, onEvent, emitEvent } from '../services/socketService';
 import UsersList from '../components/chat/UsersList';
@@ -10,16 +10,17 @@ const Chatroom = () => {
   const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
+  const [selectedChat, setSelectedChat] = useState('generalgroup'); // Default to group chat
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const nickName = params.get('nickname');
 
   useEffect(() => {
-    
     connectSocket();
 
     onEvent('userList', (userList) => {
-      setUsers(userList);
+      const filteredUsers = userList.filter(user => user.nickName.toLowerCase() !== nickName.toLowerCase());
+      setUsers(filteredUsers);
     });
 
     onEvent('receiveMessage', (msg) => {
@@ -27,7 +28,6 @@ const Chatroom = () => {
     });
 
     emitEvent('joinChat', nickName);
-    console.log("Se emite el usuario: " + nickName);
 
     return () => disconnectSocket();
   }, []);
@@ -36,33 +36,42 @@ const Chatroom = () => {
     e.preventDefault();
     if (message) {
       const currentDate = new Date();
+      const recipientNickName = selectedChat === 'generalgroup' ? 'generalgroup' : selectedChat;
+
       emitEvent('sendMessage', 
         { message,
-          nickName,
+          nickName, // Sender's nickname
+          recipientNickName,
           timestamp: currentDate.toLocaleString(),
-          status: users.length > 1 ? 'received' : 'notReceived'
+          status: users.length >= 1 ? 'received' : 'notReceived'
         });
       setMessage('');
     }
   };
 
+  // Filter messages based on the selected chat (group or private)
+  const filteredMessages = selectedChat === 'generalgroup'
+  ? messages.filter(msg => msg.recipientNickName === 'generalgroup')
+  : messages.filter(msg =>
+      // Convertimos todos los nombres de usuario a minúsculas para una comparación consistente
+      (msg.nickName.toLowerCase() === nickName.toLowerCase() && msg.recipientNickName.toLowerCase() === selectedChat.toLowerCase()) ||
+      (msg.nickName.toLowerCase() === selectedChat.toLowerCase() && msg.recipientNickName.toLowerCase() === nickName.toLowerCase())
+    );
+
   return (
     <div className="container">
 
-      {users.length && <UsersList users={users} />}
+      <UsersList users={users} onChatSelect={setSelectedChat} />
 
       <div className="chat-area">
-
         <div className="chat-header">
-          <h2>Chat Area</h2>
+          <h2>{selectedChat === 'generalgroup' ? 'Chat General' : `Chat with ${selectedChat}`}</h2>
         </div>
 
-        {messages && <Messages  messages={messages} currentUser={nickName}/>}
+        {messages && <Messages messages={filteredMessages} currentUser={nickName} />}
 
         <MessageBox handleSendMessage={handleSendMessage} message={message} setMessage={setMessage} />
-
       </div>
-
     </div>
   );
 };
