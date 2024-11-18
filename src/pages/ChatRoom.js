@@ -18,6 +18,15 @@ const Chatroom = () => {
   useEffect(() => {
     connectSocket();
 
+    onEvent('messagesList', (messagesList)=>{
+      const updatedMessages = messagesList.map(msg => ({
+        ...msg,
+        type: msg.nickName.toLowerCase() === nickName.toLowerCase() ? 'sent' : 'received',
+      }));
+      setMessages(updatedMessages);
+      console.log("Los mensajes que se consultaron son: " + messagesList);
+    });
+
     onEvent('userList', (userList) => {
       const filteredUsers = userList.filter(user => user.nickName.toLowerCase() !== nickName.toLowerCase());
       setUsers(filteredUsers);
@@ -42,7 +51,7 @@ const Chatroom = () => {
         { message,
           nickName, // Sender's nickname
           recipientNickName,
-          timestamp: currentDate.toLocaleString(),
+          createDate: currentDate.toLocaleString(),
           status: users.length >= 1 ? 'received' : 'notReceived'
         });
       setMessage('');
@@ -65,7 +74,7 @@ const Chatroom = () => {
 
       <div className="chat-area">
         <div className="chat-header">
-          <h2>{selectedChat === 'generalgroup' ? 'Chat General' : `Chat with ${selectedChat}`}</h2>
+          <h2>{selectedChat === 'generalgroup' ? 'Chat General' : `Chat con ${selectedChat}`}</h2>
         </div>
 
         {messages && <Messages messages={filteredMessages} currentUser={nickName} />}

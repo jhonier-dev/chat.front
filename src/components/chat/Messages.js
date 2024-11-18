@@ -12,7 +12,7 @@ const Messages = ({ messages, currentUser }) => {
                             text={msg.message} 
                             type={msg.nickName === currentUser ? 'sent' : 'received'} 
                             status= {msg.status}
-                            timestamp={msg.timestamp}
+                            timestamp={msg.createDate}
                         /> 
                     </li>
                 ))}
