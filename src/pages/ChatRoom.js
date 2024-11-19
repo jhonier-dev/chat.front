@@ -44,14 +44,12 @@ const Chatroom = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (message) {
-      const currentDate = new Date();
       const recipientNickName = selectedChat === 'generalgroup' ? 'generalgroup' : selectedChat;
 
       emitEvent('sendMessage', 
         { message,
           nickName, // Sender's nickname
           recipientNickName,
-          createDate: currentDate.toLocaleString(),
           status: users.length >= 1 ? 'received' : 'notReceived'
         });
       setMessage('');

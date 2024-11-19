@@ -1,17 +1,32 @@
 import React from 'react';
 
-const Message = ({ user, text, type, status, timestamp }) => {
+const Message = ({ user, text, type, status, timestamp, recipientNickName, currentUser }) => {
 
     const capitalizeWords = (str) => {
       return str.replace(/\b\w/g, (char) => char.toUpperCase());
     };
 
+    // Función para generar colores pastel dinámicamente
+    const generatePastelColor = (nickName) => {
+      const hash = [...nickName].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const hue = hash % 360; // Hue para rotación uniforme en el espectro de colores
+      const saturation = 70; // Saturación para tonos pastel
+      const lightness = 83; // Claridad para que contraste con texto oscuro
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    };
+
+    // Determina el color del texto
+    const backgroundColor  =
+      recipientNickName === 'generalgroup' && user.toLowerCase() !== currentUser.toLowerCase()
+        ? generatePastelColor(user)
+        : ''; // Por defecto, no cambia el color para el usuario actual o fuera del grupo
+
     return (
-      <div className={`message ${type}`}>
+      <div className={`message ${type}`} style={{ backgroundColor }}>
         {/* Primera fila: usuario y texto */}
         <div className="message-content">
           <p>
-            <strong>{capitalizeWords(user)}: </strong>
+            <strong >{capitalizeWords(user)}: </strong>
             {text}
           </p>
         </div>
