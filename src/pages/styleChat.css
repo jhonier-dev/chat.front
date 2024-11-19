@@ -15,20 +15,29 @@ div{
   flex: 1;
 }
 
+h2{
+  margin: auto;
+  font-size: 1.2em;
+}
+
 .user-list {
   width: 30%;
-  background-color: #ffffff;
-  border-right: 1px solid #ddd;
+  background-color: #f5f4f4;
+  border-right: 1px solid #cfcfcf;
   overflow-y: auto;
 }
 
 .user-list .user-header{
   width: 100%;
-  height: 10.3%;
+  height: 9.9%;
   background-color: #112752;
   color: white;
-  padding: 15px;
   text-align: center;
+  align-content: stretch;
+}
+
+.user-list .user-header h2{
+  padding: 15px;
 }
 
 .user-list ul {
@@ -36,13 +45,39 @@ div{
   padding: 0;
   margin: 0;
   text-align: left;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .user-list li {
+  display: flex;
   padding: 10px 15px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #d4d4d4;
   cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-list li .user-perfil{
+  width: 75.4px;
+  height: 60.4px;
+  border-radius: 55px;
+  border: 1px solid #5a5a5a;
+}
+
+.user-list li .user-info{
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.user-list li .user-cargo{
+  color: #464646;
+  font-size: 13px;
+}
+
+.user-list li .user-correo{
+  color: #818181;
+  font-size: 11px;
 }
 
 .user-list li:hover {
@@ -59,7 +94,7 @@ div{
 
 .chat-header {
   width: 100%;
-  height: 10%;
+  height: 5%;
   background-color: #112752;
   color: white;
   padding: 15px;
@@ -69,35 +104,69 @@ div{
 
 .messages {
   flex: 1;
-  padding: 20px;
+  padding: 15px;
   overflow-y: auto;
   background-color: #c6cddb;
-  align-content: flex-end;
-}
-
-.messages ul{
-  list-style: none;
-  width: 90%;
-}
-
-.messages .message {
-  margin-bottom: 15px;
-  padding: 10px 15px;
-  border-radius: 5px;
-  max-width: 70%;
-  justify-content: space-between;
   display: flex;
-  align-items: flex-end;  
+  flex-direction: column;
 }
 
+.messages ul {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.messages ul li {
+  width: 100%; /* Para que ocupe todo el ancho del contenedor .messages */
+}
+
+/* Estilo general para todos los mensajes */
+.messages .message {
+  margin-bottom: 10px;
+  padding-top: 2px;
+  padding-bottom: 5px;
+  padding-left:15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  max-width: 60%; /* Limita el ancho de cada mensaje al 70% del contenedor */
+}
+
+/* Mensajes enviados: alineados a la derecha */
 .messages .message.sent {
   background-color: #8592bd;
-  align-self: flex-end;
+  text-align: end;
+  margin-left: auto; /* Empuja el mensaje a la derecha */
 }
 
+/* Mensajes recibidos: alineados a la izquierda */
 .messages .message.received {
   background-color: #ffffff;
-  align-self: flex-start;
+  text-align: start;
+  margin-right: auto; /* Empuja el mensaje a la izquierda */
+}
+
+.message-content {
+  width: 100%;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date.received{
+  font-size: 0.75em;
+  color: #7a7a7a;
+}
+
+.date.sent{
+  font-size: 0.75em;
+  color: #313131;
 }
 
 .message .status {
@@ -106,43 +175,54 @@ div{
   height: 16px;
 }
 
-.status.received::after {
-  
+.status.notReceived::after {
   color: gray;
 }
 
-.status.read::after {
+.status.received::after {
   color: blue;
 }
 
 .message-input {
   display: flex;
   border-top: 1px solid #b4b3b3;
-  padding: 10px;
+  padding: 15px;
   background-color: #f0f0f0;
   align-items: center;
 }
 
 .message-input input {
   flex: 1;
-  padding: 10px;
+  padding: 6px;
   border: 1px solid #77799bc2;
   border-radius: 5px;
   margin-right: 10px;
-  box-shadow: 0px 0px 15px #3c4275;
+  box-shadow: 0px 0px 3px #3c4275;
+  margin-bottom: 0px;
+  color: #464646;
+}
+
+.message-input input:focus {
+  outline: none; /* Quita el borde negro predeterminado */
+  border: 1.6px solid #707070; /* Cambia el color del borde al color que prefieras */
 }
 
 .message-input button {
   width: 10%;
   height: 100%;
-  background-color: #191a1d;
+  background-color: #112752;
   color: rgb(255, 255, 255);
-  
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 10px 10px;
+  border-radius: 25px;
   cursor: pointer;
+  border-style: none;
+  transition: background-color 1s ease;
+  margin-top: 0px;
 }
 
 .message-input button:hover {
-  background-color: #6a6a6b;
+  border-width: 0.3px;
+  border-style: solid;
+  border-color: rgb(121, 120, 120);
+  background-color: #8592bd;
 }
