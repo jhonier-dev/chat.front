@@ -1,0 +1,22 @@
+.welcome-panel {
+    flex: 1; /* Hace que el panel se estire para ocupar el espacio restante */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    text-align: center; /* Asegura que el texto se alinee */
+    background-color: #d2d8eb; /* Fondo suave, puedes cambiarlo */
+    padding: 50px;
+    width: 103%;
+    box-sizing: border-box; /* Asegura que padding no afecte las dimensiones */
+  }
+  
+.welcome-panel h3 {
+    font-size: 1.5rem;
+    color: #333;
+}
+  
+.welcome-panel p {
+    margin: 0.5rem 0;
+}
+  

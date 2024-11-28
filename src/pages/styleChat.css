@@ -45,23 +45,25 @@ h2{
   padding: 0;
   margin: 0;
   text-align: left;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .user-list li {
   display: flex;
-  padding: 10px 15px;
+  align-items: center;
+  padding: 10px 10px;
   border-bottom: 1px solid #d4d4d4;
   cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Asegura separación uniforme */
 }
 
-.user-list li .user-perfil{
-  width: 75.4px;
-  height: 60.4px;
-  border-radius: 55px;
+.user-list li .user-perfil {
+  flex-shrink: 0; /* Evita que la imagen se reduzca */
+  width: 60px; /* Tamaño fijo */
+  height: 60px;
+  border-radius: 50%; /* Forma circular */
   border: 1px solid #5a5a5a;
+  object-fit: cover; /* Ajusta contenido dentro de contenedor */
 }
 
 .user-list li .user-info{
@@ -84,12 +86,30 @@ h2{
   background-color: #bdc5d6;
 }
 
+.user-list li .user-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 5px; /* Tamaño mínimo del contador */
+}
+
+.user-list li .unread-counter {
+  background-color: #759be7f6;
+  color: white;
+  font-size: 13px;
+  border-radius: 50%;
+  padding: 5px;
+  min-width: 18px;
+  text-align: center;
+}
+
 .chat-area {
   height: 100vh;
   flex: 1;
   display: flex;
   flex-direction: column;
   border-left: ridge;
+  width: 100%;
 }
 
 .chat-header {
@@ -138,7 +158,7 @@ h2{
 /* Mensajes enviados: alineados a la derecha */
 .messages .message.sent {
   background-color: #8592bd;
-  text-align: end;
+  text-align: start;
   margin-left: auto; /* Empuja el mensaje a la derecha */
 }
 

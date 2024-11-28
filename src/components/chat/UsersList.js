@@ -1,7 +1,8 @@
 import React from 'react';
 import perfilDefault from '../../img/defaultProfile.jpg'; // Imagen predeterminada si no existe una personalizada
+import '../../pages/NewMessageAlert.css';
 
-const UsersList = ({ users, onChatSelect  }) => {
+const UsersList = ({ users, onChatSelect, unreadMessages   }) => {
   const getProfileImage = (nickName) => {
     try {
       // Convierte a minúsculas y elimina los espacios en blanco
@@ -13,7 +14,6 @@ const UsersList = ({ users, onChatSelect  }) => {
       return perfilDefault;
     }
   };
-
 
   return (
     <div className="user-list">
@@ -44,7 +44,16 @@ const UsersList = ({ users, onChatSelect  }) => {
               <strong>{user.nickName}</strong>
               <span className="user-cargo">{user.cargo}</span>
               <span className="user-correo">{user.correo}</span>
+            </div >
+              
+            <div className="user-counter">
+              {unreadMessages[user.nickName] > 0 && (
+                <span className="unread-counter">
+                  {unreadMessages[user.nickName]}
+                </span>
+              )}
             </div>
+
           </li>
         ))}
 
