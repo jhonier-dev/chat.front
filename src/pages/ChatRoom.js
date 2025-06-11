@@ -23,6 +23,7 @@ const Chatroom = () => {
 
   useEffect(() => {
     connectSocket();
+    console.log("Conexión a socket iniciada");
 
     onEvent('messagesList', (messagesList)=>{
       const updatedMessages = messagesList.map(msg => ({
@@ -69,8 +70,9 @@ const Chatroom = () => {
         // Incrementar contador de mensajes no leídos
         setUnreadMessages((prev) => ({
           ...prev,
-          [msg.nickName]: (prev[msg.nickName] || 0) + 1,
+          [msg.nickName.toLowerCase()]: (prev[msg.nickName.toLowerCase()] || 0) + 1,
         }));
+        console.log("El número de mensajes sin leer es:  ",unreadMessages);
       }
     });
     
@@ -117,12 +119,14 @@ const Chatroom = () => {
         users={users} 
         onChatSelect={(chat) => {
           setSelectedChat(chat);
-          
           // Resetear el contador de mensajes no leídos para el chat seleccionado
           setUnreadMessages((prev) => {
             const updated = { ...prev };
-            delete updated[chat];
-            return updated;
+            const normalizedChat = chat.toLowerCase(); // Normaliza el chat seleccionado
+            if (updated[normalizedChat]) {
+              delete updated[normalizedChat]; // Elimina el contador si existe
+            }
+            return prev === updated ? prev : updated;
           });
         }}
         
@@ -130,7 +134,7 @@ const Chatroom = () => {
       />
 
       <div className="chat-area">
-        <div className="chat-header">
+        <div className="chat-header2">
          <h2>
             {selectedChat === ''
               ? 'Bienvenido a la sala de chat'

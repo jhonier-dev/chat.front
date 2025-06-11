@@ -47,7 +47,6 @@ const Home = () => {
           <button onClick={joinChat}>Unirse al chat</button>
           <a href=''>¿Nesecitas ayuda?</a>
         </div>
-
       </header>
     </div>
   );

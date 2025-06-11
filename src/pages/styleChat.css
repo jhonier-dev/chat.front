@@ -21,7 +21,7 @@ h2{
 }
 
 .user-list {
-  width: 30%;
+  width: 33%;
   background-color: #f5f4f4;
   border-right: 1px solid #cfcfcf;
   overflow-y: auto;
@@ -29,7 +29,7 @@ h2{
 
 .user-list .user-header{
   width: 100%;
-  height: 9.9%;
+  height: 10%;
   background-color: #112752;
   color: white;
   text-align: center;
@@ -37,10 +37,13 @@ h2{
 }
 
 .user-list .user-header h2{
-  padding: 15px;
+  width: 100%;   /*Para quitar el estilo de index.css*/
+  height: 100%;
+  align-content: center;
 }
 
 .user-list ul {
+  width: 100%;  /*Para quitar el estilo de index.css*/ 
   list-style: none;
   padding: 0;
   margin: 0;
@@ -49,6 +52,7 @@ h2{
 }
 
 .user-list li {
+  width: 100%;    /*Para quitar el estilo de index.css*/ 
   display: flex;
   align-items: center;
   padding: 10px 10px;
@@ -94,32 +98,38 @@ h2{
 }
 
 .user-list li .unread-counter {
+  width: 20%;
   background-color: #759be7f6;
   color: white;
   font-size: 13px;
   border-radius: 50%;
   padding: 5px;
-  min-width: 18px;
+  margin: auto;
   text-align: center;
 }
 
 .chat-area {
+  width: 67%;
   height: 100vh;
   flex: 1;
   display: flex;
   flex-direction: column;
   border-left: ridge;
-  width: 100%;
 }
 
-.chat-header {
+.chat-header2 {
   width: 100%;
-  height: 5%;
+  height: 10%;
   background-color: #112752;
   color: white;
-  padding: 15px;
   text-align: center;
   border-bottom: 1px solid #ddd;
+}
+
+.chat-header2 h2{
+  width: 100%;
+  height: 100%;
+  align-content: center;
 }
 
 .messages {
@@ -203,6 +213,9 @@ h2{
   color: blue;
 }
 
+
+/*Caja de mensaje*/ 
+
 .message-input {
   display: flex;
   border-top: 1px solid #b4b3b3;
@@ -212,19 +225,23 @@ h2{
 }
 
 .message-input input {
+  height: 100%;
   flex: 1;
-  padding: 6px;
+  padding: 11px;
   border: 1px solid #77799bc2;
   border-radius: 5px;
   margin-right: 10px;
-  box-shadow: 0px 0px 3px #3c4275;
-  margin-bottom: 0px;
+  /* box-shadow: 0px 0px 3px #3c4275; */
+  margin-bottom: 0px;  /*Para quitarle el margin de pages.css*/
   color: #464646;
 }
 
 .message-input input:focus {
+  color: #545b97;
   outline: none; /* Quita el borde negro predeterminado */
-  border: 1.6px solid #707070; /* Cambia el color del borde al color que prefieras */
+  box-shadow: 0px 0px 5px #545b97;
+  border: 1.6px solid #949494; /* Cambia el color del borde al color que prefieras */
+  background-color: transparent;
 }
 
 .message-input button {

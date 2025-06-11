@@ -2,7 +2,10 @@ import React from 'react';
 import perfilDefault from '../../img/defaultProfile.jpg'; // Imagen predeterminada si no existe una personalizada
 import '../../pages/NewMessageAlert.css';
 
-const UsersList = ({ users, onChatSelect, unreadMessages   }) => {
+const UsersList =  ({ users, onChatSelect, unreadMessages   }) => {
+  
+  console.log("El contador que llega a la lista de usuarios es: ",unreadMessages);
+  
   const getProfileImage = (nickName) => {
     try {
       // Convierte a minúsculas y elimina los espacios en blanco
@@ -29,7 +32,7 @@ const UsersList = ({ users, onChatSelect, unreadMessages   }) => {
               src={getProfileImage("generalgroup")}
             />
             <div className="user-info">
-              <strong>Chat grupal</strong>
+              <strong>Chat general</strong>
             </div>
         </li>
 
@@ -47,12 +50,12 @@ const UsersList = ({ users, onChatSelect, unreadMessages   }) => {
             </div >
               
             <div className="user-counter">
-              {unreadMessages[user.nickName] > 0 && (
+              {unreadMessages[user.nickName.toLowerCase()] > 0 && (
                 <span className="unread-counter">
-                  {unreadMessages[user.nickName]}
+                  {unreadMessages[user.nickName.toLowerCase()]}
                 </span>
               )}
-            </div>
+          </div>
 
           </li>
         ))}
