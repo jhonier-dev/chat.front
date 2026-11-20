@@ -73,7 +73,7 @@ h1{
     0 0 220px rgb(0, 153, 255),
     0 0 192px rgb(0, 153, 255),
     0 0 200px rgb(0, 153, 255);
-  animation: flicker 5s infinite alternate; 
+  animation: flicker 7s infinite alternate; 
   margin-top: 15px;
   margin-bottom: 15px;
 }

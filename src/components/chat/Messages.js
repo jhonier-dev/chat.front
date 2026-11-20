@@ -21,8 +21,9 @@ const Messages = ({ messages, currentUser, messageContainerRef }) => {
                             text={msg.message} 
                             type={msg.nickName.toLowerCase() === currentUser.toLowerCase() ? 'sent' : 'received'} 
                             status= {msg.status}
-                            timestamp={msg.createDate}
+                            timestamp={msg.formattedDate}
                             recipientNickName= {msg.recipientNickName}
+                            groupName={msg.groupName}
                             currentUser={currentUser}
                         /> 
                     </li>

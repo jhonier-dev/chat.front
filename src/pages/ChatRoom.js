@@ -40,40 +40,77 @@ const Chatroom = () => {
 
     onEvent('receiveMessage', (msg) => {
       console.log('Mensaje recibido:', msg);
-  
+
+    // Confirmar recepción de mensajes privados
+    if (
+      msg.recipientNickName &&
+      msg.recipientNickName.toLowerCase() === nickName.toLowerCase() &&
+      msg.nickName.toLowerCase() !== nickName.toLowerCase()
+    ) {
+      emitEvent('messageReceived', {
+        messageId: msg.id,
+        recipientNickName: nickName
+      });
+    }
+
       // Siempre agrega el mensaje a la lista general
       setMessages((prevMessages) => [...prevMessages, msg]);
-  
+
       // Logs para depuración
       console.log('Unread Messages:', unreadMessages);
-  
+
       const isGroupChatActive =
-        selectedChatRef.current === 'generalgroup' && msg.recipientNickName === 'generalgroup';
-  
+        selectedChatRef.current === 'generalgroup' &&
+        msg.groupName === 'generalgroup';
+
       const isPrivateChatActive =
         selectedChatRef.current !== 'generalgroup' &&
-        ((nickName.toLowerCase() === msg.nickName.toLowerCase() &&
-          selectedChatRef.current.toLowerCase() === msg.recipientNickName.toLowerCase()) ||
-          (nickName.toLowerCase() === msg.recipientNickName.toLowerCase() &&
-            selectedChatRef.current.toLowerCase() === msg.nickName.toLowerCase()));
-  
+        (
+          (
+            nickName.toLowerCase() === msg.nickName.toLowerCase() &&
+            selectedChatRef.current.toLowerCase() === msg.recipientNickName?.toLowerCase()
+          ) ||
+          (
+            nickName.toLowerCase() === msg.recipientNickName?.toLowerCase() &&
+            selectedChatRef.current.toLowerCase() === msg.nickName.toLowerCase()
+          )
+        );
+
       const isInActiveChat = isGroupChatActive || isPrivateChatActive;
-  
-      const isForCurrentUser =
-        msg.recipientNickName.toLowerCase() === nickName.toLowerCase() || msg.recipientNickName === 'generalgroup';
-  
-      if (!isInActiveChat && isForCurrentUser) {
-        console.log("Mensaje no leído para el usuario actual.");
-        // Generar alerta
+
+      const isPrivateMessageForCurrentUser =
+        !!msg.recipientNickName &&
+        msg.recipientNickName.toLowerCase() === nickName.toLowerCase() &&
+        !msg.groupName;
+
+      if (!isInActiveChat && isPrivateMessageForCurrentUser) {
+        console.log("Mensaje privado no leído para el usuario actual.");
+
+        // Generar alerta privada
         setAlerts((prevAlerts) => [...prevAlerts, msg]);
-  
-        // Incrementar contador de mensajes no leídos
+
+        // Incrementar contador del chat privado
         setUnreadMessages((prev) => ({
           ...prev,
-          [msg.nickName.toLowerCase()]: (prev[msg.nickName.toLowerCase()] || 0) + 1,
+          [msg.nickName.toLowerCase()]:
+            (prev[msg.nickName.toLowerCase()] || 0) + 1,
         }));
-        console.log("El número de mensajes sin leer es:  ",unreadMessages);
+
+        console.log("El número de mensajes sin leer es: ", unreadMessages);
       }
+      
+    });
+
+    onEvent('messageStatusUpdated', (data) => {
+      console.log('Actualización del estado del mensaje:', data);
+
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === data.messageId
+            ? { ...msg, status: data.status }
+            : msg
+        )
+      );
     });
     
     emitEvent('joinChat', nickName);
@@ -88,17 +125,22 @@ const Chatroom = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (message) {
-      const recipientNickName = selectedChat === 'generalgroup' ? 'generalgroup' : selectedChat;
 
-      emitEvent('sendMessage', 
-        { message,
-          nickName, // Sender's nickname
-          recipientNickName,
-          status: users.length >= 1 ? 'received' : 'notReceived'
-        });
-      setMessage('');
-    }
+    if (!message.trim() || !selectedChat) return;
+
+    const isGroupChat = selectedChat === 'generalgroup';
+
+    const messageData = {
+      message,
+      nickName,
+      recipientNickName: isGroupChat ? null : selectedChat,
+      groupName: isGroupChat ? 'generalgroup' : null
+    };
+
+    console.log('Mensaje que se enviará:', messageData);
+
+    emitEvent('sendMessage', messageData);
+    setMessage('');
   };
 
   const handleDismissAlert = (alertIndex) => {
@@ -106,11 +148,17 @@ const Chatroom = () => {
   };
 
   const filteredMessages = selectedChat === 'generalgroup'
-  ? messages.filter(msg => msg.recipientNickName === 'generalgroup')
-  : messages.filter(msg =>
-      (msg.nickName.toLowerCase() === nickName.toLowerCase() && msg.recipientNickName.toLowerCase() === selectedChat.toLowerCase()) ||
-      (msg.nickName.toLowerCase() === selectedChat.toLowerCase() && msg.recipientNickName.toLowerCase() === nickName.toLowerCase())
-    );
+    ? messages.filter(msg => msg.groupName === 'generalgroup')
+    : messages.filter(msg =>
+        (
+          msg.nickName.toLowerCase() === nickName.toLowerCase() &&
+          msg.recipientNickName?.toLowerCase() === selectedChat.toLowerCase()
+        ) ||
+        (
+          msg.nickName.toLowerCase() === selectedChat.toLowerCase() &&
+          msg.recipientNickName?.toLowerCase() === nickName.toLowerCase()
+        )
+      );
 
   return (
     <div className="container">
@@ -119,6 +167,21 @@ const Chatroom = () => {
         users={users} 
         onChatSelect={(chat) => {
           setSelectedChat(chat);
+          // Identificar si la conversación seleccionada es grupal o privada
+          const isGroupChat = chat === 'generalgroup';
+
+          const conversationData = {
+            nickName,
+            recipientNickName: isGroupChat ? null : chat,
+            groupName: isGroupChat ? 'generalgroup' : null
+          };
+
+          console.log("Conversación seleccionada:", conversationData);
+
+          // Solicitar al backend el historial de la conversación
+          emitEvent('loadConversation', conversationData);
+          //Actualizar el estado de los mensaje a "read"
+
           // Resetear el contador de mensajes no leídos para el chat seleccionado
           setUnreadMessages((prev) => {
             const updated = { ...prev };

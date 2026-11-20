@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Message = ({ user, text, type, status, timestamp, recipientNickName, currentUser }) => {
+const Message = ({ user, text, type, status, timestamp, groupName, currentUser }) => {
 
     const capitalizeWords = (str) => {
       return str.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -17,7 +17,7 @@ const Message = ({ user, text, type, status, timestamp, recipientNickName, curre
 
     // Determina el color del texto
     const backgroundColor  =
-      recipientNickName === 'generalgroup' && user.toLowerCase() !== currentUser.toLowerCase()
+      groupName === 'generalgroup' && user.toLowerCase() !== currentUser.toLowerCase()
         ? generatePastelColor(user)
         : ''; // Por defecto, no cambia el color para el usuario actual o fuera del grupo
 
