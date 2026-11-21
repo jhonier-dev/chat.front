@@ -24,7 +24,7 @@ const Home = () => {
       });
       if (result.status === constants.STATUSES.OK) {
         console.log("Nombre enviado a ChatRoom:", JSON.stringify(nickName.trim()));
-        navigate(`/chat-room?nickname=${encodeURIComponent(nickName)}`);
+        navigate(`/chat-room?nickname=${encodeURIComponent(nickName.trim())}`);
       }
 
     } catch (error) {
