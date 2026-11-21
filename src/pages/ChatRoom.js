@@ -22,6 +22,7 @@ const Chatroom = () => {
   const nickName = params.get('nickname');
 
   useEffect(() => {
+
     connectSocket();
     console.log("Conexión a socket iniciada");
 
@@ -109,6 +110,7 @@ const Chatroom = () => {
       );
     });
     
+    console.log('Desde la interfaz se envía:', nickName);
     emitEvent('joinChat', nickName);
 
     return () => disconnectSocket();
