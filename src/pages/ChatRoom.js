@@ -109,9 +109,9 @@ const Chatroom = () => {
         )
       );
     });
-    
-    console.log('Desde la interfaz se envía:', nickName);
-    emitEvent('joinChat', nickName);
+
+    console.log('Desde la interfaz se envía:', nickName.trim());
+    emitEvent('joinChat', nickName.trim());
 
     return () => disconnectSocket();
   }, [nickName]);
