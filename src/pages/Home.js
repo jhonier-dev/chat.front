@@ -15,7 +15,10 @@ const Home = () => {
     e.preventDefault();
 
     try {
-      const result = await createSesion({ nickName, password });
+      const result = await createSesion({
+        nickName: nickName.trim(),
+        password
+      });
       if (result.status === constants.STATUSES.OK) {
         navigate(`/chat-room?nickname=${encodeURIComponent(nickName)}`);
       }
