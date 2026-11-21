@@ -45,9 +45,9 @@ const Home = () => {
             placeholder="   Digite su contraseña"
           />
           <button onClick={joinChat}>Unirse al chat</button>
-          <button type="button" className="help-link">
+          <a href="https://chat-front-v1.vercel.app/">
             ¿Necesitas ayuda?
-          </button>
+          </a>
         </div>
       </header>
     </div>
