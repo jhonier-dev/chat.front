@@ -15,6 +15,9 @@ const Home = () => {
     e.preventDefault();
 
     try {
+
+      console.log("Nombre digitado:", JSON.stringify(nickName));
+      console.log("Nombre normalizado:", JSON.stringify(nickName.trim()));
       const result = await createSesion({
         nickName: nickName.trim(),
         password
