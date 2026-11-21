@@ -56,9 +56,6 @@ const Chatroom = () => {
       // Siempre agrega el mensaje a la lista general
       setMessages((prevMessages) => [...prevMessages, msg]);
 
-      // Logs para depuración
-      console.log('Unread Messages:', unreadMessages);
-
       const isGroupChatActive =
         selectedChatRef.current === 'generalgroup' &&
         msg.groupName === 'generalgroup';
@@ -96,7 +93,6 @@ const Chatroom = () => {
             (prev[msg.nickName.toLowerCase()] || 0) + 1,
         }));
 
-        console.log("El número de mensajes sin leer es: ", unreadMessages);
       }
       
     });
@@ -116,7 +112,7 @@ const Chatroom = () => {
     emitEvent('joinChat', nickName);
 
     return () => disconnectSocket();
-  }, []);
+  }, [nickName]);
 
   // Sincroniza el valor de selectedChat con la referencia
   useEffect(() => {

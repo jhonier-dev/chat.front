@@ -5,11 +5,12 @@ import { useLayoutEffect } from 'react';
 const Messages = ({ messages, currentUser, messageContainerRef }) => {
 
     useLayoutEffect(() => {
-        if (messageContainerRef?.current) {
-          // Desplazarse automáticamente al último mensaje
-          messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
-        }
-    }, [messages]); // Se ejecuta cada vez que los mensajes cambian, o cuando se renderiza el componente
+    if (messageContainerRef?.current) {
+        // Desplazarse automáticamente al último mensaje
+        messageContainerRef.current.scrollTop =
+            messageContainerRef.current.scrollHeight;
+    }
+}, [messages, messageContainerRef]); // Se ejecuta cada vez que los mensajes cambian, o cuando se renderiza el componente
 
     return (
         <div className="messages" ref={messageContainerRef}>

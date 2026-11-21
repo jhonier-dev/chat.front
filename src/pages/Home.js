@@ -45,7 +45,9 @@ const Home = () => {
             placeholder="   Digite su contraseña"
           />
           <button onClick={joinChat}>Unirse al chat</button>
-          <a href=''>¿Nesecitas ayuda?</a>
+          <button type="button" className="help-link">
+            ¿Necesitas ayuda?
+          </button>
         </div>
       </header>
     </div>
